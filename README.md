@@ -3,8 +3,7 @@
 
 # How To Use
 ## KLHdataset
-```
-# Examples
+```Python
 train_data_file = '/content/drive/MyDrive/GoormProject/GoormProject3/data/문어체_해요체_끝어절.csv'
 train_data_file_added = '/content/drive/MyDrive/GoormProject/GoormProject3/data/문어체_해요체_끝어절_added.csv'
 
