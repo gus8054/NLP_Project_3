@@ -17,7 +17,7 @@ class KLHdataset():
     self.data = data
 
   @classmethod
-  def load_from_csv(cls, file_path:str, recover=False):
+  def load_from_csv(cls, file_path:str, recover=False, recover_len=5):
     # csv 파일에 있는 데이터를 불러온다.
     encoded_data = []
     tokenizer = AutoTokenizer.from_pretrained('skt/kogpt2-base-v2',
@@ -31,13 +31,13 @@ class KLHdataset():
       rdr = csv.reader(f)
       for line in rdr:
         if line[1]: # 해요체 변환 데이터가 없는 경우를 제외한다 (보통 문장에 문제가 있던 경우임)
-          sent = recover_sent(line) if recover else line
+          sent = recover_sent(line, recover_len=recover_len) if recover else line
           encoded_data.append(sent +[bos_token + tokenizer.encode('<usr>' + sent[0] + '<sys>' + sent[1]) + eos_token])
 
     return cls(encoded_data[1:])
 
   @classmethod
-  def load(cls, data, recover=False):
+  def load(cls, data, recover=False, recover_len=5):
     # load_from_csv와 비슷하나, csv파일 대신 list로 들어오는 데이터를 불러온다.
     encoded_data = []
     tokenizer = AutoTokenizer.from_pretrained('skt/kogpt2-base-v2',
@@ -49,7 +49,7 @@ class KLHdataset():
 
     for line in data:
       if line[1]: # 해요체 변환 데이터가 없는 경우를 제외한다 (보통 문장에 문제가 있던 경우임)
-        sent = recover_sent(line) if recover else line
+        sent = recover_sent(line, recover_len=recover_len) if recover else line
         encoded_data.append(sent +[bos_token + tokenizer.encode('<usr>' + sent[0] + '<sys>' + sent[1]) + eos_token])
     return cls(encoded_data)
 
