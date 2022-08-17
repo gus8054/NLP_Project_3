@@ -38,6 +38,7 @@ train_data, val_data, test_data = KLHdataset.split(data)
 
 ## KoGPT2StyleTransfer
 KoGPT-2 어체 변환 모델입니다.
+### 모델 학습 / 저장 / 불러오기
 ```Python
 from NLP_Project_3.KoGPT2StyleTransfer import KoGPT2StyleTransfer
 
@@ -51,9 +52,19 @@ style_transfer_model.save_model(model_path)
 # 이미 학습된 모델 호출하기
 style_transfer_model.load_model(model_path)
 ```
+### 어절 어체 변환하기
 ```Python
 # 어체 변환
 >>> sentence = '현재 NLP 기술은 급격히 발전하고 있다.'
 >>> print(style_transfer_model.style_transfer(sentence))
 현재 NLP 기술은 급속히 발전해요.
+```
+### 변환 결과를 원래 문장에 적용하기
+```Python
+from NLP_Project_3.KoGPT2StyleTransfer import replace_sent
+segment = '아침까지 안개가 끼는 곳이 있어요.'
+sent = '오늘 중부지방의 하늘에는 구름이 많이 지나겠고, 중부 내륙에는 아침까지 안개가 끼는 곳이 있다.'
+
+recover_line = replace_sent(segment, sent)
+print(recover_line)
 ```

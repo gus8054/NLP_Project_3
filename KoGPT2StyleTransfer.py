@@ -5,6 +5,15 @@ from transformers import TFGPT2LMHeadModel
 import pandas as pd
 from tqdm.notebook import tqdm
 
+def replace_sent(segment, sent, segment_len = 5, drop_segment=False):
+  # 모델에서 나온 어체 변환 결과물을 원래 문장과 결합하고자 할 때 사용한다.
+  # segment: 문장에 치환해넣고자 하는 끝 어절
+  # sent: 치환될 원래 문장
+  # segment_len: 모델에서 학습한 어절의 수
+  # drop_segment: 만약 segment가 segment_len보다 많은 어절을 갖고있을 때, 앞에 있는 어절을 지울것인지 결정.
+  if drop_segment: return ' '.join(sent.split()[:-segment_len]+segment.split()[-segment_len:])
+  else: return ' '.join(sent.split()[:-segment_len]+segment.split())
+
 class KoGPT2StyleTransfer():
   def __init__(self, model_name = 'skt/kogpt2-base-v2'):
     self.model = TFGPT2LMHeadModel.from_pretrained(model_name, from_pt=True)
