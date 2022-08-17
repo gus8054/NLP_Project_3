@@ -83,7 +83,7 @@ class KoGPT2StyleTransfer():
       output = self.model.generate(input_ids, max_length=max_length, do_sample=True, top_k=top_k)
       sentence = self._tokenizer.decode(output[0].numpy().tolist())
       # 모델 출력에 따라서 아래 부분에서 간혹 오류가 날 수 있다.
-      response = sentence.split('<sys> ')[1].replace('</s>', '')
+      response = sentence.split('<sys>')[1].replace('</s>', '').strip()
       return response
 
   def load_model(self, file_path: str):
