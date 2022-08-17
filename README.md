@@ -4,11 +4,12 @@
 # Install
 ## KoGPT-2 어체 변환 모델 사용 시
 ```Python
-pip install -r kogpt2-requirements.txt
-```
-```Python
 !git clone -b feature/style_transfer https://토큰@github.com/gus8054/NLP_Project_3.git
 ```
+```Python
+pip install -r kogpt2-requirements.txt
+```
+
 # How To Use
 ## Drive Mount
 Google Colab에서 아래 코드를 실행하기 위해서는 G드라이브에 연동해야 합니다.
