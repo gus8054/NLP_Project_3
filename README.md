@@ -12,6 +12,7 @@ from google.colab import drive
 drive.mount('/content/drive')
 ```
 ## KLHdataset
+KoGPT-2 어체 변환 모델에 쓰일 데이터를 불러옵니다.
 ```Python
 from NLP_Project_3.KLHdataset import KLHdataset
 
@@ -26,4 +27,26 @@ data = KLHdataset.load_from_csv(train_data_file, recover = True)
 data.add(KLHdataset.load_from_csv(train_data_file_added, recover=True))
 # Train, Validation, Test 데이터로 쪼갬
 train_data, val_data, test_data = KLHdataset.split(data)
+```
+
+## KoGPT2StyleTransfer
+KoGPT-2 어체 변환 모델입니다.
+```Python
+from NLP_Project_3.KoGPT2StyleTransfer import KoGPT2StyleTransfer
+
+model_path = '/content/drive/MyDrive/GoormProject/GoormProject3/kogpt2_style_transfer/kogpt2_style_transfer.ckpt'
+
+style_transfer_model = KoGPT2StyleTransfer()
+# 모델 학습
+train_loss, val_loss = style_transfer_model.train(train_data, val_data)
+# 모델 저장
+style_transfer_model.save_model(model_path)
+# 이미 학습된 모델 호출하기
+style_transfer_model.load_model(model_path)
+```
+```Python
+# 어체 변환
+>>> sentence = '현재 NLP 기술은 급격히 발전하고 있다.'
+>>> print(style_transfer_model.style_transfer(sentence))
+현재 NLP 기술은 급속히 발전해요.
 ```
