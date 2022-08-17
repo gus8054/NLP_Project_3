@@ -3,11 +3,12 @@
 
 # Install
 ## KoGPT-2 어체 변환 모델 사용 시
+토큰은 GitHub에 접속 후 Settings - Developer settings - Personal access tokens에서 발급받아야 한다.
 ```Python
 !git clone -b feature/style_transfer https://토큰@github.com/gus8054/NLP_Project_3.git
 ```
 ```Python
-pip install -r kogpt2-requirements.txt
+pip install -r NLP_Project_3/kogpt2-requirements.txt
 ```
 
 # How To Use
