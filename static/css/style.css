@@ -1,0 +1,25 @@
+@import "reset.css";
+@import "variables.css";
+
+ /*fonts.css*/
+ @font-face {
+    font-family : "maplestory"; /*font 이름*/
+    font-style : "normal"; /* font 스타일 정의 (기울임, 일반) */
+    font-weight : normal; /* font 굵기 정의 */
+    /* 브라우저&디바이스 환경에 따른 font 파일 위치 정의 */
+    src: url('../font/MaplestoryLight.ttf');
+ }
+ @font-face {
+    font-family : "maplestory"; /*font 이름*/
+    font-style : "normal"; /* font 스타일 정의 (기울임, 일반) */
+    font-weight : bold; /* font 굵기 정의 */
+    /* 브라우저&디바이스 환경에 따른 font 파일 위치 정의 */
+    src: url('../font/MaplestoryBold.ttf');
+ }
+
+body {
+    background-color: var(--bg-main-color);
+    color: var(--font-main-color);
+    font-family: maplestory;
+    height: 100vh;
+}
