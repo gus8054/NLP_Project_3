@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/screens/article.css') }}">
+    <title>NLP PROJECT 3</title>
+</head>
+<body>
+    <div class="loader-container loader-container--hidden">
+        <div class="loader-container__spinner"></div>
+    </div>
+    <header class="header">
+        <div class="header__title"><a href="/"><img class="header__logo" src="{{ url_for('static', filename='img/NLP프로젝트3로고이미지2.png') }}" alt="NLP Project 3"></a></div>
+        <ul class="header__nav">
+            <a href="/"><li class="header__nav-item header__nav-item--activated">Investing</li></a>
+            <li class="header__nav-item">News1</li>
+            <li class="header__nav-item">News2</li>
+        </ul>
+    </header>
+    <main class="news">
+        {% if request_method == 'GET' %}
+        <h1 class="news__title">{{article.original_title}}</h1>
+        {% else %}
+        <h1 class="news__title">{{article.converted_title}}</h1>
+        {% endif %}
+        <div class="news__img">
+            <img src="{{article.big_img}}" alt="">
+        </div>
+        {% if request_method == 'GET' %}
+        <div class="news__container">
+            <section class="news__content">
+                {%for i in range(article.original_content | length)%}
+                <p>{{article.original_content[i]}}</p>
+                {% endfor %}
+            </section>
+        </div>
+        {% else %}
+        <h3 class="news__lang-title">번역문</h4>
+        <div class="news__container">
+            <section class="news__content">
+                {%for i in range(article.converted_content | length)%}
+                <p>{{article.converted_content[i]}}</p>
+                {% endfor %}
+            </section>
+        </div>
+        <h3 class="news__lang-title">원문</h4>
+        <div class="news__container">
+            <section class="news__content">
+                {%for i in range(article.original_content | length)%}
+                <p>{{article.original_content[i]}}</p>
+                {% endfor %}
+            </section>
+        </div>
+        {% endif %}
+        <form id='form' method="post"></form>
+        {% if request_method == 'GET' %}
+        <button class="news__btn" type="submit">요약 / 번역</button>
+        {% else %}
+        <a href="/article/{{article.id}}"><button class="news__btn" type="submit">원문 보기</button></a>
+        {% endif %}
+    </main>
+    <footer class="footer">&copy; NLP 이렇게 하는거조</footer>
+    <script defer src="{{ url_for('static', filename='js/article.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/screens/index.css') }}">
+    <title>NLP PROJECT 3</title>
+</head>
+<body>
+    <header class="header">
+        <div class="header__title"><a href="/"><img class="header__logo" src="{{ url_for('static', filename='img/NLP프로젝트3로고이미지2.png') }}" alt="NLP Project 3"></a></div>
+        <ul class="header__nav">
+            <a href="/"><li class="header__nav-item header__nav-item--activated">Investing</li></a>
+            <li class="header__nav-item">News1</li>
+            <li class="header__nav-item">News2</li>
+        </ul>
+    </header>
+    <section class="main">
+        <h1 class="main__title">MZ세대를 위한 경제 뉴스</h1>
+        <p class="main__subtitle">경제뉴스가 너무 딱딱해서 읽기 싫은 MZ세대들을 위해 경제 뉴스를 요약해서 번역해주는 서비스입니다. 해외 경제뉴스를 조금 더 가까이 접할 수 있도록 친근한 어투로 서비스를 제공합니다.</p>
+    </section>
+    <section class="album">
+        <div class="album__container">
+            <div class="album__row">
+                {% for article in articles %}
+                <div class="album__col">            
+                    <a class="card" href="/article/{{article.id}}">
+                        <img src={{article.img}} alt="" class="card__img">
+                        <div class="card__body">
+                            <p class="card__text">{{article.original_title}}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <footer class="footer">&copy; NLP 이렇게 하는거조</footer>
+</body>
+</html>
