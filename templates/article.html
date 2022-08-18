@@ -46,11 +46,11 @@
                 {% endfor %}
             </section>
         </div>
-        <h3 class="news__lang-title">원문</h4>
+        <h3 class="news__lang-title">원문 요약</h4>
         <div class="news__container">
             <section class="news__content">
-                {%for i in range(article.original_content | length)%}
-                <p>{{article.original_content[i]}}</p>
+                {%for i in range(article.summarized_text | length)%}
+                <p>{{article.summarized_text[i]}}</p>
                 {% endfor %}
             </section>
         </div>

@@ -139,8 +139,8 @@ def show_article(article_id):
         #여기서 content, title 수정
         if 'converted_content' not in article_list[curr_article_index]:
             article_list[curr_article_index]['converted_title'] = enko_transfer.translate_title(article_list[curr_article_index]['original_title'])
-            article_list[curr_article_index]['summarized_text'] = text_summarization.summarize(article_list[curr_article_index]['original_content'])
-            article_list[curr_article_index]['converted_content'] = enko_transfer.translate_text(article_list[curr_article_index]['summarized_text'])
+            summarized_text = text_summarization.summarize(" ".join(article_list[curr_article_index]['original_content']))
+            article_list[curr_article_index]['converted_content'] = enko_transfer.translate_text(summarized_text)
         return render_template('article.html', article=article_list[curr_article_index], request_method='POST')
 
     return render_template('article.html', article=article_list[curr_article_index], request_method='GET')
