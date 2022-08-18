@@ -1,22 +1,16 @@
-import init
-# from cgitb import text
-# import os
-# from flask import Flask, request, redirect, url_for, send_from_directory, render_template
+import text_summarization
+import enko_transfer
 from flask import Flask, request, render_template
-# from pprint import pprint
-# import time
 import requests
 from bs4 import BeautifulSoup
 import time
-# import pickle
 import re
 from collections import deque
-from text_summarization import summarize
-from enko_transfer import translate_text
-from text_style_transfer import translate_text_style
-
+from flask_ngrok import run_with_ngrok
+from flask import Flask, render_template
 
 app = Flask(__name__)
+run_with_ngrok(app)
 
 # 데이터 카테고리 정의
 category2url = {'경제': '/news/economy'}
@@ -95,7 +89,8 @@ def index():
 @app.route('/article/<int:article_id>', methods=['GET', 'POST'])
 def show_article(article_id):
     # url 제거
-    pattern = '(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?'
+    pattern1 = '(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?'
+    pattern2 = r'\([^)]*\)'
     repl = ""
 
     # 페이지 매칭
@@ -127,14 +122,15 @@ def show_article(article_id):
 
         big_img_URL = section.find('img', attrs={'id': 'carouselImage'})['src']
         # 기사의 내용을 가져온다.
-        content = ''
+        content = []
         articlePage = section.find("div", attrs={"class":["WYSIWYG", "articlePage"]})
 
         for ptag in articlePage.find_all("p"):
             p_text = ptag.get_text()
             # 단락내의 url을 제거
-            p_text = re.sub(pattern=pattern, repl=repl, string=p_text)
-            content += p_text + '\n'
+            p_text = re.sub(pattern=pattern1, repl=repl, string=p_text)
+            p_text = re.sub(pattern=pattern2, repl=repl, string=p_text)
+            content.append(p_text)
 
         article_list[curr_article_index]['original_content'] = content
         article_list[curr_article_index]['big_img'] = big_img_URL
@@ -142,13 +138,11 @@ def show_article(article_id):
     if request.method == 'POST':
         #여기서 content, title 수정
         if 'converted_content' not in article_list[curr_article_index]:
-            article_list[curr_article_index]['converted_title'] = translate_text(article_list[curr_article_index]['original_title'])
-            summarized_text = summarize(article_list[curr_article_index]['original_content'])
-            # article_list[curr_article_index]['converted_content'] = summarized_text
-            translated_text = translate_text(summarized_text)
-            article_list[curr_article_index]['converted_content'] = translate_text_style(translated_text)
+            article_list[curr_article_index]['converted_title'] = enko_transfer.translate_title(article_list[curr_article_index]['original_title'])
+            article_list[curr_article_index]['summarized_text'] = text_summarization.summarize(article_list[curr_article_index]['original_content'])
+            article_list[curr_article_index]['converted_content'] = enko_transfer.translate_text(article_list[curr_article_index]['summarized_text'])
         return render_template('article.html', article=article_list[curr_article_index], request_method='POST')
 
     return render_template('article.html', article=article_list[curr_article_index], request_method='GET')
 
-app.run(port=5001, debug=True)
+app.run()

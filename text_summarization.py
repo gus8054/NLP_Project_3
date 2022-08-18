@@ -28,7 +28,8 @@ with open('glove.6B.100d.txt', encoding="utf8") as f: # 100차원의 GloVe 벡�
         word_vector_arr = np.asarray(word_vector[1:], dtype='float32') # 100개의 값을 가지는 array로 변환
         glove_dict[word] = word_vector_arr
 
-def summarize(text):
+def summarize(eng_text:list)->list:
+  text = " ".join(eng_text)
   # 토큰화 함수
   def tokenization(sentences):
       return [word_tokenize(sentence) for sentence in sentences]
@@ -89,7 +90,7 @@ def summarize(text):
   data['SimMatrix'] = similarity_matrix(data['SentenceEmbedding'])
   data['score'] = calculate_score(data['SimMatrix'])
   data['summary'] = ranked_sentences(data['sentences'], data['score'])
-  result = data['summary']
+  result = sent_tokenize(data['summary'])
   del data
 
   return result
