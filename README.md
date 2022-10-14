@@ -1,3 +1,9 @@
+# Neural Machine Translation_(Econteller - Eng-Kor NEWS Translation for MZ generation)
+Using Transformer models for translate English economic NEWS into Korean and apply style transfer 
+
+## Goorm Project #3
+구름 AI 기술 자연어처리 전문가 양성 과정 4기 프로젝트 
+
 # 실행 환경
 * 구글 코랩 Pro+ 에서 테스트했습니다.
 # 설치 패키지
